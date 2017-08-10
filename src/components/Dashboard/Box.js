@@ -13,7 +13,6 @@ export default styled(RectangleWithValidProps)`
   `}
 
   box-sizing: border-box;
-  font-weight: bold;
   margin: -2px;
 
   align-items: center;
