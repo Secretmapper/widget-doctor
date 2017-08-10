@@ -1,19 +1,26 @@
 import React from 'react'
-import Dashboard from '../Dashboard'
+import Modal from './Modal'
 import Button from '../Button'
+import Dashboard from '../Dashboard'
+import WidgetPicker from '../WidgetPicker'
 import Title from './Title'
 
 import AddIcon from 'react-icons/lib/io/android-add'
 
 export default _ => (
-  <Dashboard
-    header={
-      <div>
-        <Title>Team Dashboard</Title>
+  <div>
+    <Dashboard
+      header={
         <div>
-          <Button><AddIcon /> Button</Button>
+          <Title>Team Dashboard</Title>
+          <div>
+            <Button><AddIcon /> Add Widget</Button>
+          </div>
         </div>
-      </div>
-    }
-  />
+      }
+    />
+    <Modal isOpen contentLabel='Widget Picker'>
+      <WidgetPicker />
+    </Modal>
+  </div>
 )
