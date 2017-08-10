@@ -13,7 +13,7 @@ import AddIcon from 'react-icons/lib/io/android-add'
 export default ({ img, header, author, description }) => (
   <Wrapper>
     <Image>
-      <img src={img} />
+      <img src={img} alt='Widget Logo' />
     </Image>
     <Main>
       <Header>{header}</Header>
