@@ -7,6 +7,8 @@ import Title from './Title'
 
 import AddIcon from 'react-icons/lib/io/android-add'
 
+import UsersActivity from '../DashboardWidget/UsersActivity'
+
 export default _ => (
   <div>
     <Dashboard
@@ -18,8 +20,10 @@ export default _ => (
           </div>
         </div>
       }
-    />
-    <Modal isOpen contentLabel='Widget Picker'>
+    >
+      <UsersActivity />
+    </Dashboard>
+    <Modal isOpen={false} contentLabel='Widget Picker'>
       <WidgetPicker />
     </Modal>
   </div>
