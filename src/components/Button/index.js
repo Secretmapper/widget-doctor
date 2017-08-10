@@ -6,11 +6,15 @@ export default styled.button`
   border-radius: 4px;
   color: white;
   cursor: pointer;
-  font-size: 13px;
-  padding: 6px;
-  padding-left: 20px;
-  padding-right: 20px;
+  font-size: 1rem;
+  padding: 8px 12px;
   outline: none;
+
+  svg {
+    font-size: 1.3rem;
+    margin-bottom: 0;
+    vertical-align: top;
+  }
 
   &:hover:enabled {
     background: #6F859E;
