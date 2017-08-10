@@ -14,3 +14,6 @@ storiesOf('Button', module)
   .add('with right icon', () => (
     <Button>Button <DownIcon /></Button>
   ))
+  .add('mute', () => (
+    <Button mute>Button</Button>
+  ))
