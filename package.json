@@ -20,7 +20,9 @@
     "lint": "./node_modules/.bin/standard",
     "lint:fix": "./node_modules/.bin/standard --fix",
     "eject": "react-scripts eject",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "standard": {
     "env": [
@@ -32,5 +34,8 @@
       "URL"
     ],
     "parser": "babel-eslint"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.2.3"
   }
 }
