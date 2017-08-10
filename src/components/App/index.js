@@ -7,7 +7,7 @@ import Title from './Title'
 
 import AddIcon from 'react-icons/lib/io/android-add'
 
-import UsersActivity from '../DashboardWidget/UsersActivity'
+import UsersActivity from '../DashboardWidgets/UsersActivity'
 
 export default _ => (
   <div>

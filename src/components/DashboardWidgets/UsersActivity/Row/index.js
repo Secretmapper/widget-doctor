@@ -10,7 +10,7 @@ import userAvatar1 from '../../../../assets/images/userAvatar1.png'
 export default ({ id, name, lastname, daily, progress }) => (
   <ActivityRowWrapper key={id}>
     <div>
-      <img src={userAvatar1} />
+      <img src={userAvatar1} alt='User Avatar' />
     </div>
     <Half>{name} {lastname}</Half>
     <Half>

@@ -7,7 +7,7 @@ import Header from './Header'
 import Sidebar from './Sidebar'
 import Main from './Main'
 import WidgetPickerRow from './WidgetPickerRow'
-import Actions from './Actions'
+import Actions from '../Actions'
 
 import WidgetActivityUsersImage from '../../assets/images/widget_activity_users.png'
 
