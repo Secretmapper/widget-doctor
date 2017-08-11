@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { isIn } from '../../utils'
+import { isIn, pluck, immutableSwap } from '../../utils'
 
 import widgetReducer, { processWidget } from './widget'
 
@@ -8,12 +8,13 @@ const initialState = {
   ui: {
     widgetPickerOpen: false
   },
-  widgets: {}
+  widgets: [null, null, null, null, null, null]
 }
 
-const isWidgetInState = (state, widgetKey) => widgetKey in state
+const isWidgetInState = (widgets, widgetKey) => isIn(pluck(widgets, 'key'), widgetKey)
 
 export default function (state = initialState, action) {
+  let widgetInState
   switch (action.type) {
     case 'DASHBOARD_OPEN_WIDGET_PICKER':
       return {
@@ -32,15 +33,33 @@ export default function (state = initialState, action) {
         }
       }
     case 'DASHBOARD_ADD_WIDGET':
-      const widgetInState = isWidgetInState(state.widgets, action.payload.widget)
       const widgetIsValid = isIn(VALID_WIDGETS, action.payload.widget)
+      widgetInState = isWidgetInState(state.widgets, action.payload.widget)
+
       if (!widgetInState && widgetIsValid) {
+        const index = state.widgets.indexOf(null)
+
         return {
           ...state,
-          widgets: {
-            ...state.widgets,
-            [action.payload.widget]: widgetReducer(undefined, action)
-          }
+          widgets: [
+            ...state.widgets.slice(0, index),
+            widgetReducer(undefined, action),
+            ...state.widgets.slice(index + 1)
+          ]
+        }
+      } else {
+        return state
+      }
+    case 'DASHBOARD_MOVE_WIDGET':
+      widgetInState = isWidgetInState(state.widgets, action.payload.widget)
+
+      if (widgetInState && action.payload.index >= 0 && action.payload.index <= 6) {
+        const oldIndex = pluck(state.widgets, 'key').indexOf(action.payload.widget)
+        const { index } = action.payload
+
+        return {
+          ...state,
+          widgets: immutableSwap(state.widgets, oldIndex, index)
         }
       } else {
         return state
@@ -48,12 +67,15 @@ export default function (state = initialState, action) {
     case 'DASHBOARD_DELETE_WIDGET':
       if (isWidgetInState(state.widgets, action.payload.widget)) {
         const { widget } = action.payload
-        // omit widget key
-        const { [widget]: _, ...widgets } = state.widgets
+        const index = pluck(state.widgets, 'key').indexOf(widget)
 
         return {
           ...state,
-          widgets: widgets
+          widgets: [
+            ...state.widgets.slice(0, index),
+            null,
+            ...state.widgets.slice(index + 1)
+          ]
         }
       } else {
         return state
@@ -62,10 +84,9 @@ export default function (state = initialState, action) {
       const { widget } = action.payload
       return {
         ...state,
-        widgets: {
-          ...state.widgets,
-          [action.payload.widget]: widgetReducer(state.widgets[widget], action)
-        }
+        widgets: state.widgets.map(
+          (item) => (item && item.key === widget) ? widgetReducer(item, action) : item
+        )
       }
     default:
       return state
@@ -87,23 +108,22 @@ export const Actions = {
     type: 'DASHBOARD_EDIT_SETTINGS_WIDGET',
     payload: { widget: key, field, value }
   }),
+  moveWidget: (key, index) => ({
+    type: 'DASHBOARD_MOVE_WIDGET',
+    payload: { widget: key, index }
+  }),
   deleteWidget: key => ({
     type: 'DASHBOARD_DELETE_WIDGET',
     payload: { widget: key }
   })
 }
 
-// process every widget
+// pad widgets to always be at least 6
 const defaultSelector = ({ dashboard }) => ({
   dashboard: {
     ...dashboard,
-    widgets: (
-      Object
-        .keys(dashboard.widgets)
-        .reduce((acc, k) => ({
-          ...acc, [k]: processWidget(dashboard.widgets[k])
-        }), {})
-    )
+    // process every widget
+    widgets: dashboard.widgets.map(i => i ? processWidget(i) : i)
   }
 })
 

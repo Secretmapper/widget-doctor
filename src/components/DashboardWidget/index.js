@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { findDOMNode } from 'react-dom'
+import { compose } from 'recompose'
+import { DragSource } from 'react-dnd'
 import Dropdown from './Dropdown'
 
 import IconButton from '../IconButton'
@@ -10,11 +13,24 @@ import SettingsContainer from './SettingsContainer'
 import Actions from '../Actions'
 import Button from '../Button'
 
+const widgetDrag = {
+  beginDrag: ({ widgetKey }) => ({ widgetKey })
+}
+
+function collect (connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }
+}
+
 // TODO: Disabling linting here due to use of class properties
 // Apparently an eslint bug (https://github.com/babel/babel-eslint/issues/487)
 
 /*eslint-disable*/
-export default class extends Component {
+export default compose(
+  DragSource('DASHBOARD_WIDGET', widgetDrag, collect)
+)(class extends Component {
   static defaultProps = {
     onSettingsSave: _ => {},
     onSettingsCancel: _ => {}
@@ -78,8 +94,10 @@ export default class extends Component {
     const { header, main, settings } = this.props
     const { editing, showDropdown } = this.state
 
+    const { connectDragSource, isDragging } = this.props
+
     return (
-      <Widget>
+      <Widget innerRef={ins => connectDragSource(findDOMNode(ins))}>
         <Widget.Header>
           {header}
           {!editing && (
@@ -112,5 +130,5 @@ export default class extends Component {
       </Widget>
     )
   }
-}
+})
 /*eslint-enable*/

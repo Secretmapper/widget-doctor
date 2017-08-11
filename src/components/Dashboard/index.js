@@ -1,5 +1,9 @@
 import React from 'react'
+import { compose } from 'recompose'
+import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import { Grid } from 'grid-styled'
+import DroppableGrid from '../../containers/DashboardDroppableGrid'
 import Centered from '../Centered'
 
 import Wrapper from './Wrapper'
@@ -9,29 +13,32 @@ import Box from './Box'
 const ratios = [1, 1 / 2, 1 / 3]
 const DropHereMessage = _ => <Centered style={{ color: '#697FA8' }}>Drop Here</Centered>
 
-export default ({ header, children }) => (
+export default compose(
+  DragDropContext(HTML5Backend)
+)(({ header, children, moveWidget }) => (
   <Wrapper>
     <Header>{header}</Header>
     <div>
       {children && React.Children.map(
         children,
-        child => (
-          <Grid w={ratios} p={1} key={child.key}>
-            <Box aspectRatio={[400, 250]} filled>
-              {child || <DropHereMessage />}
-            </Box>
-          </Grid>
-        )
-      )}
-      {Array.from(Array(6 - React.Children.count(children))).map(
         (child, index) => (
-          <Grid w={ratios} p={1} key={index}>
-            <Box aspectRatio={[400, 250]}>
-              <DropHereMessage />
-            </Box>
-          </Grid>
+          child
+          ? (
+            <Grid w={ratios} p={1} key={child.key}>
+              <Box aspectRatio={[400, 250]} filled>
+                {child || <DropHereMessage />}
+              </Box>
+            </Grid>
+          )
+          : (
+            <DroppableGrid w={ratios} p={1} key={index} index={index} onDrop={k => moveWidget(k, index)}>
+              <Box aspectRatio={[400, 250]}>
+                <DropHereMessage />
+              </Box>
+            </DroppableGrid>
+          )
         )
       )}
     </div>
   </Wrapper>
-)
+))

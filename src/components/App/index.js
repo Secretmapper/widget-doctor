@@ -13,7 +13,12 @@ const widgetsKeyToComponentMap = ({
   'UsersActivity': UsersActivity
 })
 
-export default ({ dashboard, addWidget, editWidget, deleteWidget, openWidget, closeWidget }) => (
+export default ({
+  dashboard,
+  addWidget, editWidget,
+  moveWidget, deleteWidget,
+  openWidget, closeWidget
+}) => (
   <div>
     <Dashboard
       header={
@@ -24,18 +29,23 @@ export default ({ dashboard, addWidget, editWidget, deleteWidget, openWidget, cl
           </div>
         </div>
       }
+      moveWidget={moveWidget}
     >
-      {Object.keys(dashboard.widgets).map(key => (
-        React.createElement(
-          widgetsKeyToComponentMap[key],
-          {
-            ...dashboard.widgets[key],
-            key,
-            widgetKey: key,
-            onEdit: editWidget,
-            onDelete: deleteWidget
-          }
+      {dashboard.widgets.map(object => (
+        object
+        ? (
+          React.createElement(
+            widgetsKeyToComponentMap[object.key],
+            {
+              ...object,
+              key: object.key,
+              widgetKey: object.key,
+              onEdit: editWidget,
+              onDelete: deleteWidget
+            }
+          )
         )
+        : null
       ))}
     </Dashboard>
     <Modal

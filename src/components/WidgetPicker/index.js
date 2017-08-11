@@ -1,4 +1,5 @@
 import React from 'react'
+import { isIn, pluck } from '../../utils'
 import Input from '../Input'
 import IconButton from '../IconButton'
 import Button from '../Button'
@@ -37,7 +38,7 @@ export default ({ header, sidebar, main, onRequestClose, activeWidgets, addWidge
           description='Users who worked more or less than their minimuim hours required in daily, weekly, and monthly.'
           onAdd={_ => addWidget('UsersActivity')}
           onDelete={_ => deleteWidget('UsersActivity')}
-          addable={!('UsersActivity' in activeWidgets)}
+          addable={!(isIn(pluck(activeWidgets, 'key'), 'UsersActivity'))}
         />
         <Actions>
           <Button mute onClick={onRequestClose}>Cancel</Button>

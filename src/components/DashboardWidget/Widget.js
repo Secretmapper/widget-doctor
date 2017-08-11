@@ -10,8 +10,9 @@ const Styled = styled(Widget)`
 `
 
 Styled.Header = styled(Widget.Header)`
-  font-weight: normal;
+  cursor: move;
   display: flex;
+  font-weight: normal;
   justify-content: space-between;
   flex-direction: row;
   padding-right: 0.5rem;
