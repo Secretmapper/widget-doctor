@@ -1,4 +1,4 @@
-import { isIn, pluck, clamp } from './utils'
+import { isIn, pluck, clamp, immutableSwap } from './utils'
 
 describe('utils', () => {
   describe('isIn', () => {
@@ -40,6 +40,23 @@ describe('utils', () => {
 
     it('returns actual value', () => {
       expect(clamp(0, 5, 3)).toEqual(3)
+    })
+  })
+
+  describe('immutableSwap', () => {
+    it('does not modify old value', () => {
+      const oldArr = [1, 2, 3]
+      immutableSwap(oldArr, 0, 1)
+
+      expect(oldArr).toEqual(oldArr)
+    })
+
+    it('swaps properly', () => {
+      const oldArr = [1, 2, 3]
+      const newArr = immutableSwap(oldArr, 0, 1)
+
+      expect(newArr[0]).toEqual(2)
+      expect(newArr[1]).toEqual(1)
     })
   })
 })
