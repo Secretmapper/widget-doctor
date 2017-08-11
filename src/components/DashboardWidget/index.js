@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { compose } from 'recompose'
 import { DragSource } from 'react-dnd'
-import Dropdown from './Dropdown'
 
-import IconButton from '../IconButton'
+import Dropdown from '../../containers/Dropdown'
 import ListItem from '../ListItem'
 import Widget from './Widget'
 
@@ -38,31 +37,7 @@ export default compose(
 
   state = {
     element: null,
-    editing: false,
-    showDropdown: false
-  }
-
-  componentWillMount () {
-    document.addEventListener('click', this.onDocumentClick, false)
-  }
-
-  componentWillUnmount () {
-    document.removeEventListener('click', this.onDocumentClick, false)
-  }
-
-  setRef = element => {
-    this.setState({ element })
-  }
-
-  toggleDropdown = _ => {
-    this.setState(({ showDropdown }) => ({ showDropdown: !showDropdown }))
-  }
-
-  onDocumentClick = e => {
-    const { element } = this.state
-
-    if (element && element.contains(e.target)) return
-    this.setState({ showDropdown: false })
+    editing: false
   }
 
   openSettings = e => {
@@ -90,9 +65,9 @@ export default compose(
   }
 
   render () {
-    const { setRef, toggleDropdown, openSettings, onCancel, onSave, onDelete } = this
+    const { openSettings, onCancel, onSave, onDelete } = this
     const { header, main, settings } = this.props
-    const { editing, showDropdown } = this.state
+    const { editing } = this.state
 
     const { connectDragSource, isDragging } = this.props
 
@@ -101,17 +76,10 @@ export default compose(
         <Widget.Header>
           {header}
           {!editing && (
-            <div ref={setRef}>
-              <IconButton onClick={toggleDropdown}>
-                <SettingsIcon />
-              </IconButton>
-              {showDropdown && (
-                <Dropdown>
-                  <ListItem onClick={openSettings}>Edit Widget</ListItem>
-                  <ListItem onClick={onDelete}>Delete Widget</ListItem>
-                </Dropdown>
-              )}
-            </div>
+            <Dropdown icon={<SettingsIcon />}>
+              <ListItem onClick={openSettings}>Edit Widget</ListItem>
+              <ListItem onClick={onDelete}>Delete Widget</ListItem>
+            </Dropdown>
           )}
         </Widget.Header>
         <Widget.Body>

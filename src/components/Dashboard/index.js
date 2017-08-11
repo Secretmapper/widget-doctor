@@ -1,7 +1,4 @@
 import React from 'react'
-import { compose } from 'recompose'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import { Grid } from 'grid-styled'
 import DroppableGrid from '../../containers/DashboardDroppableGrid'
 import Centered from '../Centered'
@@ -13,9 +10,7 @@ import Box from './Box'
 const ratios = [1, 1 / 2, 1 / 3]
 const DropHereMessage = _ => <Centered style={{ color: '#697FA8' }}>Drop Here</Centered>
 
-export default compose(
-  DragDropContext(HTML5Backend)
-)(({ header, children, moveWidget }) => (
+export default ({ header, children, moveWidget }) => (
   <Wrapper>
     <Header>{header}</Header>
     <div>
@@ -41,4 +36,4 @@ export default compose(
       )}
     </div>
   </Wrapper>
-))
+)

@@ -6,6 +6,7 @@ export default styled.div`
   border: 1px solid rgba(0,0,0,.15);
   box-shadow: 0 1px 6px rgba(0,0,0,.175);
   margin: 2px 0 0;
+  font-size: 1rem;
   padding: 5px 0;
   position: absolute;
   right: 2px;

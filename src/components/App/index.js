@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from './Modal'
 import Button from '../Button'
-import Dashboard from '../Dashboard'
+import Dashboard from '../../containers/DashboardContainer'
 import WidgetPicker from '../WidgetPicker'
 import Title from './Title'
 
