@@ -30,6 +30,7 @@ Styled.Header = styled(Widget.Header)`
 `
 
 Styled.Body = styled(Widget.Body)`
+  padding: 5px 15px;
   overflow: auto;
 
 `

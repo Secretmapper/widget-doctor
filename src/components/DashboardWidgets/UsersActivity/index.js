@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, withHandlers } from 'recompose'
+import { compose, withHandlers, withState } from 'recompose'
 import DashboardWidget from '../../DashboardWidget'
 import ActivityRow from './Row'
 import { Flex, Grid } from 'grid-styled'
@@ -13,15 +13,30 @@ const UserRow = data => ({ id, ...props }) => (
 )
 
 export default compose(
+  withState('numberOfUsers', 'setNumberOfUsers', ({ settings }) => settings.numberOfUsers),
+  withState('activity', 'setActivity', ({ settings }) => settings.activity),
   withHandlers({
-    editNumberOfUsers: ({ widgetKey, onEdit }) => e => {
-      onEdit(widgetKey, 'numberOfUsers', e.target.value)
+    editNumberOfUsers: ({ setNumberOfUsers }) => e => {
+      setNumberOfUsers(e.target.value)
     },
-    editActivity: ({ widgetKey, onEdit }) => e => {
-      onEdit(widgetKey, 'activity', e.target.value)
+    editActivity: ({ setActivity }) => e => {
+      setActivity(e.target.value)
+    },
+    onSave: ({ numberOfUsers, activity, widgetKey, onEdit }) => _ => {
+      onEdit(widgetKey, 'numberOfUsers', numberOfUsers)
+      onEdit(widgetKey, 'activity', activity)
+    },
+    onCancel: ({ setNumberOfUsers, setActivity, settings }) => _ => {
+      setNumberOfUsers(settings.numberOfUsers)
+      setActivity(settings.activity)
     }
   })
-)(({ data, settings, widgetKey, onDelete, editNumberOfUsers, editActivity, ...props }) => (
+)(({
+  data, settings, widgetKey, onDelete,
+  numberOfUsers, editNumberOfUsers,
+  activity, setActivity, onSave, onCancel,
+  editActivity, ...props
+}) => (
   <DashboardWidget
     header='Users activity'
     main={data.users && data.users.map(UserRow(data))}
@@ -30,7 +45,7 @@ export default compose(
         <InputGroup>
           <Label block>Number of users</Label>
           <Input
-            value={settings.numberOfUsers}
+            value={numberOfUsers}
             onChange={editNumberOfUsers}
             fullWidth
             placeholder='Number of users'
@@ -48,7 +63,7 @@ export default compose(
                 type='radio'
                 value='Highest'
                 id='activity-highest'
-                checked={settings.activity === 'Highest'}
+                checked={activity === 'Highest'}
                 onChange={editActivity}
               />
               <label htmlFor='activity-highest'>Highest</label>
@@ -59,7 +74,7 @@ export default compose(
                 type='radio'
                 value='Lowest'
                 id='activity-lowest'
-                checked={settings.activity === 'Lowest'}
+                checked={activity === 'Lowest'}
                 onChange={editActivity}
               />
               <label htmlFor='activity-lowest'>Lowest</label>
@@ -69,6 +84,8 @@ export default compose(
       </div>
     )}
     widgetKey={widgetKey}
+    onSettingsSave={onSave}
+    onSettingsCancel={onCancel}
     onDelete={onDelete}
   />
 ))
