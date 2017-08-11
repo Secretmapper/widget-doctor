@@ -13,7 +13,14 @@ import Actions from '../Actions'
 import Button from '../Button'
 
 const widgetDrag = {
-  beginDrag: ({ widgetKey }) => ({ widgetKey })
+  beginDrag: ({ startDragWidget, widgetKey }) => {
+    startDragWidget()
+
+    return { widgetKey }
+  },
+  endDrag: ({ stopDragWidget }) => {
+    stopDragWidget()
+  }
 }
 
 function collect (connect, monitor) {

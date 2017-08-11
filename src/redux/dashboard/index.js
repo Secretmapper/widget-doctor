@@ -6,7 +6,8 @@ import widgetReducer, { processWidget } from './widget'
 const VALID_WIDGETS = ['UsersActivity']
 const initialState = {
   ui: {
-    widgetPickerOpen: false
+    widgetPickerOpen: false,
+    widgetDragging: false
   },
   widgets: [null, null, null, null, null, null]
 }
@@ -50,6 +51,10 @@ export default function (state = initialState, action) {
       } else {
         return state
       }
+    case 'DASHBOARD_START_DRAG_WIDGET':
+      return { ...state, ui: { ...state.ui, widgetDragging: true } }
+    case 'DASHBOARD_STOP_DRAG_WIDGET':
+      return { ...state, ui: { ...state.ui, widgetDragging: false } }
     case 'DASHBOARD_MOVE_WIDGET':
       widgetInState = isWidgetInState(state.widgets, action.payload.widget)
 
@@ -111,6 +116,12 @@ export const Actions = {
   moveWidget: (key, index) => ({
     type: 'DASHBOARD_MOVE_WIDGET',
     payload: { widget: key, index }
+  }),
+  startDragWidget: (key, index) => ({
+    type: 'DASHBOARD_START_DRAG_WIDGET'
+  }),
+  stopDragWidget: (key, index) => ({
+    type: 'DASHBOARD_STOP_DRAG_WIDGET'
   }),
   deleteWidget: key => ({
     type: 'DASHBOARD_DELETE_WIDGET',

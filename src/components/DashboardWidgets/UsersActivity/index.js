@@ -35,6 +35,7 @@ export default compose(
   data, settings, widgetKey, onDelete,
   numberOfUsers, editNumberOfUsers,
   activity, setActivity, onSave, onCancel,
+  startDragWidget, stopDragWidget,
   editActivity, ...props
 }) => (
   <DashboardWidget
@@ -86,6 +87,8 @@ export default compose(
     widgetKey={widgetKey}
     onSettingsSave={onSave}
     onSettingsCancel={onCancel}
+    startDragWidget={startDragWidget}
+    stopDragWidget={stopDragWidget}
     onDelete={onDelete}
   />
 ))

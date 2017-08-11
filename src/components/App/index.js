@@ -16,6 +16,7 @@ const widgetsKeyToComponentMap = ({
 export default ({
   dashboard,
   addWidget, editWidget,
+  startDragWidget, stopDragWidget,
   moveWidget, deleteWidget,
   openWidget, closeWidget
 }) => (
@@ -29,6 +30,7 @@ export default ({
           </div>
         </div>
       }
+      widgetDragging={dashboard.ui.widgetDragging}
       moveWidget={moveWidget}
     >
       {dashboard.widgets.map(object => (
@@ -40,6 +42,8 @@ export default ({
               ...object,
               key: object.key,
               widgetKey: object.key,
+              startDragWidget: startDragWidget,
+              stopDragWidget: stopDragWidget,
               onEdit: editWidget,
               onDelete: deleteWidget
             }

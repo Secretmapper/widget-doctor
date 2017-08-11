@@ -7,7 +7,7 @@ const RectangleWithValidProps = ({ filled, children, ...props }) => (
 )
 
 export default styled(RectangleWithValidProps)`
-  ${props => !props.filled && `
+  ${props => !props.filled && props.dragging && `
     border: 2px dashed #DCDFE6;
     border-radius: 8px;
   `}
