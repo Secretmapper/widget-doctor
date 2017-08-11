@@ -1,9 +1,11 @@
 import React from 'react'
+import fadeInUp from '../../animations/fadeInUp'
 import styled from 'styled-components'
 import Modal from 'react-modal'
 import { media } from '../../styleUtils'
 
 const StyledModal = styled(Modal)`
+  animation: ${fadeInUp} ease-in-out 0.3s;
   background: white;
   border: 1px solid rgba(0,0,0,.2);
   border-radius: 6px;

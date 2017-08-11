@@ -1,9 +1,11 @@
 import styled from 'styled-components'
+import bounceIn from '../../animations/bounceIn'
 import Widget from '../Widget'
 
 import IconButton from '../IconButton'
 
 const Styled = styled(Widget)`
+  animation: ${bounceIn} ease-in-out 0.5s;
   position: relative;
   height: 100%;
   width: 100%;
