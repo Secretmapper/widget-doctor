@@ -17,3 +17,6 @@ storiesOf('Button', module)
   .add('mute', () => (
     <Button mute>Button</Button>
   ))
+  .add('danger', () => (
+    <Button danger>Button</Button>
+  ))

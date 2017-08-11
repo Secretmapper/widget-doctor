@@ -13,12 +13,12 @@ import WidgetActivityUsersImage from '../../assets/images/widget_activity_users.
 
 import CloseIcon from 'react-icons/lib/io/close'
 
-export default ({ header, sidebar, main }) => (
+export default ({ header, sidebar, main, onRequestClose, activeWidgets, addWidget, deleteWidget }) => (
   <HeaderSidebarLayout
     header={
       <Header>
         Add a widget
-        <IconButton>
+        <IconButton onClick={onRequestClose}>
           <CloseIcon />
         </IconButton>
       </Header>
@@ -35,10 +35,13 @@ export default ({ header, sidebar, main }) => (
           header='Users Activity'
           author='TimeDoctor'
           description='Users who worked more or less than their minimuim hours required in daily, weekly, and monthly.'
+          onAdd={_ => addWidget('UsersActivity')}
+          onDelete={_ => deleteWidget('UsersActivity')}
+          addable={!('UsersActivity' in activeWidgets)}
         />
         <Actions>
-          <Button mute>Cancel</Button>
-          <Button>Save</Button>
+          <Button mute onClick={onRequestClose}>Cancel</Button>
+          <Button onClick={onRequestClose}>Save</Button>
         </Actions>
       </Main>
     }

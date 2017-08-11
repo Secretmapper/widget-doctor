@@ -67,8 +67,14 @@ export default class extends Component {
     this.setState({ editing: false })
   }
 
+  onDelete = _ => {
+    const { onDelete, widgetKey } = this.props
+
+    onDelete(widgetKey)
+  }
+
   render () {
-    const { setRef, toggleDropdown, openSettings, onCancel, onSave } = this
+    const { setRef, toggleDropdown, openSettings, onCancel, onSave, onDelete } = this
     const { header, main, settings } = this.props
     const { editing, showDropdown } = this.state
 
@@ -84,7 +90,7 @@ export default class extends Component {
               {showDropdown && (
                 <Dropdown>
                   <ListItem onClick={openSettings}>Edit Widget</ListItem>
-                  <ListItem onClick={console.log}>Delete Widget</ListItem>
+                  <ListItem onClick={onDelete}>Delete Widget</ListItem>
                 </Dropdown>
               )}
             </div>

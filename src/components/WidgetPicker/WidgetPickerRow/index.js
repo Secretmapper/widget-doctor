@@ -9,8 +9,9 @@ import Actions from './Actions'
 
 import Button from '../../Button'
 import AddIcon from 'react-icons/lib/io/android-add'
+import TrashIcon from 'react-icons/lib/io/ios-trash-outline'
 
-export default ({ img, header, author, description }) => (
+export default ({ img, header, author, description, onAdd, onDelete, addable }) => (
   <Wrapper>
     <Image>
       <img src={img} alt='Widget Logo' />
@@ -25,7 +26,10 @@ export default ({ img, header, author, description }) => (
       </Description>
     </Main>
     <Actions>
-      <Button><AddIcon /> Add Widget</Button>
+      {addable
+        ? <Button onClick={onAdd}><AddIcon /> Add Widget</Button>
+        : <Button onClick={onDelete} danger><TrashIcon /> Remove Widget</Button>
+      }
     </Actions>
   </Wrapper>
 )

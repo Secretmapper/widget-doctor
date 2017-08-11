@@ -1,4 +1,4 @@
-import { isIn, pluck } from './utils'
+import { isIn, pluck, clamp } from './utils'
 
 describe('utils', () => {
   describe('isIn', () => {
@@ -26,6 +26,20 @@ describe('utils', () => {
 
     it('maps the property over an array', () => {
       expect(pluck(arr, 'alpha')).toEqual(['ABC', 'DEF', 'GHI'])
+    })
+  })
+
+  describe('clamp', () => {
+    it('returns min value', () => {
+      expect(clamp(0, 5, -50)).toEqual(0)
+    })
+
+    it('returns max value', () => {
+      expect(clamp(0, 5, 50)).toEqual(5)
+    })
+
+    it('returns actual value', () => {
+      expect(clamp(0, 5, 3)).toEqual(3)
     })
   })
 })

@@ -9,22 +9,45 @@ import AddIcon from 'react-icons/lib/io/android-add'
 
 import UsersActivity from '../DashboardWidgets/UsersActivity'
 
-export default _ => (
+const widgetsKeyToComponentMap = ({
+  'UsersActivity': UsersActivity
+})
+
+export default ({ dashboard, addWidget, editWidget, deleteWidget, openWidget, closeWidget }) => (
   <div>
     <Dashboard
       header={
         <div>
           <Title>Team Dashboard</Title>
           <div>
-            <Button><AddIcon /> Add Widget</Button>
+            <Button onClick={openWidget}><AddIcon /> Add Widget</Button>
           </div>
         </div>
       }
     >
-      <UsersActivity />
+      {Object.keys(dashboard.widgets).map(key => (
+        React.createElement(
+          widgetsKeyToComponentMap[key],
+          {
+            ...dashboard.widgets[key],
+            key,
+            widgetKey: key,
+            onEdit: editWidget,
+            onDelete: deleteWidget
+          }
+        )
+      ))}
     </Dashboard>
-    <Modal isOpen={false} contentLabel='Widget Picker'>
-      <WidgetPicker />
+    <Modal
+      isOpen={dashboard.ui.widgetPickerOpen}
+      contentLabel='Widget Picker'
+    >
+      <WidgetPicker
+        onRequestClose={closeWidget}
+        activeWidgets={dashboard.widgets}
+        addWidget={addWidget}
+        deleteWidget={deleteWidget}
+      />
     </Modal>
   </div>
 )

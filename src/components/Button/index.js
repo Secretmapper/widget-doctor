@@ -40,4 +40,20 @@ export default styled.button`
       color: white;
     }
   `}
+
+  ${props => props.danger && `
+    background: #DC463A;
+    border: 1px solid #DC463A;
+    color: white;
+
+    &:hover:enabled {
+      background: #b62a20;
+      color: white;
+    }
+
+    &:focus {
+      background: #8f2119;
+      color: white;
+    }
+  `}
 `
