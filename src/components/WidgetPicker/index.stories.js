@@ -4,5 +4,5 @@ import WidgetPicker from './index'
 
 storiesOf('WidgetPicker', module)
   .add('default', () => (
-    <WidgetPicker />
+    <WidgetPicker activeWidgets={[]} />
   ))

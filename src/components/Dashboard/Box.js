@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Rectangle from 'react-rectangle'
 
-const RectangleWithValidProps = ({ filled, children, ...props }) => (
+const RectangleWithValidProps = ({ filled, children, dragging, ...props }) => (
   <Rectangle {...props}>{children}</Rectangle>
 )
 
